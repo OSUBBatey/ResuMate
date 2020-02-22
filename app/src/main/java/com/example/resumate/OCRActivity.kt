@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.example.resumate.ui.main.OCRFragment
 
+
 class OCRActivity : SingleFragmentActivity() {
 
     override fun createFrag(): Fragment {
@@ -14,4 +15,5 @@ class OCRActivity : SingleFragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.single_fragment_activity)
     }
+
 }
