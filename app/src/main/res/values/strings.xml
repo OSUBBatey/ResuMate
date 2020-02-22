@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ResuMate</string>
     <string name="testText">Enter Text:</string>
-    <string name="ViewF">View File</string>
+    <string name="ViewF">View Text</string>
     <string name="SelectF">Pick File</string>
     <string name="submit">Submit</string>
     <string name="Login">Login</string>

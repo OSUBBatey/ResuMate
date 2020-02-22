@@ -1,4 +1,4 @@
-package com.example.resumate.ui.main
+package com.example.resumate.ui.fragment
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
