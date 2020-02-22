@@ -1,4 +1,4 @@
-package com.example.resumate.ui.main
+package com.example.resumate.ui.fragment
 
 import android.content.Intent
 import android.os.Bundle

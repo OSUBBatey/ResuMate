@@ -1,8 +1,9 @@
-package com.example.resumate
+package com.example.resumate.ui.activity
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.resumate.ui.main.OCRFragment
+import com.example.resumate.R
+import com.example.resumate.ui.fragment.OCRFragment
 
 
 class OCRActivity : SingleFragmentActivity() {

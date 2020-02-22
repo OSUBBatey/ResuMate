@@ -1,4 +1,4 @@
-package com.example.resumate.ui.main
+package com.example.resumate.ui.fragment
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
