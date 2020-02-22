@@ -17,9 +17,10 @@
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.182"
+        app:layout_constraintVertical_bias="0.385"
         tools:layout_conversion_absoluteHeight="236dp"
         tools:layout_conversion_absoluteWidth="362dp" />
 
@@ -47,4 +48,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ocrTextView"
         app:layout_constraintVertical_bias="0.509" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/logout"
+        tools:layout_editor_absoluteX="303dp"
+        tools:layout_editor_absoluteY="19dp"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ocrTextView"
+        app:layout_constraintVertical_bias="0.509"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

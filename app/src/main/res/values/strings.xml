@@ -7,6 +7,9 @@
     <string name="Login">Login</string>
     <string name="SignUp">SignUp</string>
     <string name="uname">UserName</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="loginPrompt">Please Login Below</string>
     <string name="ResuMate">ResuMate</string>
+    <string name="logout">Logout</string>
 </resources>
