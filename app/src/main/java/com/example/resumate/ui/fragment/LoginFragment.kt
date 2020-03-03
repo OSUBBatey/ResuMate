@@ -42,42 +42,6 @@ class LoginFragment : Fragment(), View.OnClickListener{
         loginButton.setOnClickListener(this)
         signupButton.setOnClickListener(this)
 
-        /*
-        signupButton.setOnClickListener {
-
-            if(emailId.isEmpty() || paswd.isEmpty()) {
-                if (emailId.isEmpty()) {
-                    email.setError("Email was not provided")
-                    email.isFocusable = true
-                }
-                if (paswd.isEmpty()) {
-                    password.setError("Password was not provided")
-                    password.isFocusable = true
-                }
-            }
-
-
-
-            mFirebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()){
-                        mListener.onSignUpDone();
-                    }else{
-                        Utility.showDialog(getActivity(), task);
-                    }
-
-                }
-            });
-        }
-        }
-
-
-        loginButton.setOnClickListener{
-            //firebaseAuth.signInWithEmailAndPassword(emailId, paswd)
-            loginButton.setOnClickListener(this)
-        }
-*/
         return v
     }
 
