@@ -12,9 +12,9 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
-import com.google.android.gms.gcm.Task
-import com.google.firebase.auth.AuthResult
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 
 
 class LoginFragment : Fragment(), View.OnClickListener{
@@ -37,22 +37,75 @@ class LoginFragment : Fragment(), View.OnClickListener{
         password = v.findViewById(R.id.password)
         val loginButton: Button = v.findViewById(R.id.login_button)
         val signupButton: Button = v.findViewById(R.id.signup_button)
-        emailStr = email.text.toString()
-        passwordStr = password.text.toString()
+
         loginButton.setOnClickListener(this)
         signupButton.setOnClickListener(this)
 
         return v
     }
 
-
+    private fun emailOrPassEmpty(emailStr: String, passwordStr: String): Boolean {
+        if (emailStr.isEmpty() || passwordStr.isEmpty()){
+            if (emailStr.isEmpty()) {
+                email.setError("Email was not provided")
+                email.isFocusable = true
+            }
+            if (passwordStr.isEmpty()) {
+                password.setError("Password was not provided")
+                password.isFocusable = true
+            }
+            return true
+        }
+        return false
+    }
     override fun onClick(v: View) {
-        when(v.id){
-                R.id.login_button -> goToOCR()
-                R.id.signup_button -> {
-                    //firebaseAuth.createUserWithEmailAndPassword(emailStr, passwordStr)
-                    goToOCR()
+        emailStr = email.text.toString()
+        passwordStr = password.text.toString()
+        val status: Boolean = emailOrPassEmpty(emailStr, passwordStr)
+        if(!status) {
+            when (v.id) {
+                R.id.login_button -> {
+                    firebaseAuth.signInWithEmailAndPassword(emailStr, passwordStr)
+                        .addOnCompleteListener(
+                            OnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Sign in and update UI
+                                    Log.d(TAG, "signInWithEmail:success")
+                                    val user = firebaseAuth.currentUser
+                                    goToOCR()
+                                } else {
+                                    Log.w(TAG, "signInWithEmail:failure", task.exception)
+                                    val e =
+                                        task.exception as FirebaseAuthException?
+                                    Toast.makeText(
+                                        activity, "Sign in failed. " + e?.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            })
                 }
+                R.id.signup_button -> {
+                    firebaseAuth.createUserWithEmailAndPassword(emailStr, passwordStr)
+                        .addOnCompleteListener(
+                            OnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    Log.d(TAG, "createUserWithEmail:success")
+                                    val user = firebaseAuth.currentUser
+                                    goToOCR()
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                                    val e =
+                                        task.exception as FirebaseAuthException?
+                                    Toast.makeText(
+                                        activity, "Sign up failed. " + e?.message,
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
+                            })
+                }
+            }
         }
     }
 

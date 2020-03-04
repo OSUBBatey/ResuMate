@@ -1,5 +1,6 @@
 package com.example.resumate.ui.fragment
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 
@@ -32,6 +34,8 @@ class OCRFragment : Fragment(), View.OnClickListener{
         pickButton.setOnClickListener(this)
         val viewButton: Button = v.findViewById(R.id.view_button)
         viewButton.setOnClickListener(this)
+        val logoutButton: Button = v.findViewById(R.id.logout_button)
+        logoutButton.setOnClickListener(this)
 
         return v
     }
@@ -59,9 +63,19 @@ class OCRFragment : Fragment(), View.OnClickListener{
     override fun onClick(v: View) {
         when(v.id){
             R.id.view_button -> runRecog()
+            R.id.logout_button -> {
+                FirebaseAuth.getInstance().signOut()
+                goToLogin()
+
+            }
         }
+
     }
 
+    private fun goToLogin(){
+        activity?.finish()
+        startActivity(Intent("com.example.resumate.ui.main.Login"))
+    }
     //Temporary OCR (Same function as OCR2)
     private fun runRecog(){
         val tView = activity?.findViewById<TextView>(R.id.ocrTextView)
