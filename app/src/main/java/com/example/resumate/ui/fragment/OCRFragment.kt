@@ -55,6 +55,18 @@ class OCRFragment : Fragment(), View.OnClickListener{
         viewButton.setOnClickListener(this)
         val logoutButton: Button = v.findViewById(R.id.logout_button)
         logoutButton.setOnClickListener(this)
+        val addResumeButton: Button = v.findViewById(R.id.add_resume_button)
+        addResumeButton.setOnClickListener(this)
+        val deleteResumeButton: Button = v.findViewById(R.id.delete_resume_button)
+        deleteResumeButton.setOnClickListener(this)
+        val addUserButton: Button = v.findViewById(R.id.add_user_button)
+        addUserButton.setOnClickListener(this)
+        val deleteUserButton: Button = v.findViewById(R.id.delete_user_button)
+        deleteUserButton.setOnClickListener(this)
+        val addJobsButton: Button = v.findViewById(R.id.add_job_button)
+        addJobsButton.setOnClickListener(this)
+        val deleteJobsButton: Button = v.findViewById(R.id.delete_job_button)
+        deleteJobsButton.setOnClickListener(this)
 
         return v
     }
@@ -87,6 +99,72 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 FirebaseAuth.getInstance().signOut()
                 goToLogin()
             }
+            R.id.add_resume_button -> updateUserResume()
+            R.id.delete_resume_button -> deleteUserResume()
+            R.id.add_job_button -> updateUserJobs()
+            R.id.delete_job_button -> deleteUserJobs()
+            R.id.add_user_button -> updateUsers()
+            R.id.delete_user_button -> deleteUsers()
+        }
+    }
+
+    private fun updateUserResume(){
+        val user = FirebaseAuth.getInstance().currentUser
+        firebaseDatabase = FirebaseDatabase.getInstance().reference
+        if (user != null){
+            firebaseDatabase.child("resume").child(user?.email.toString().substringBefore('.')).setValue("test resume")
+        } else {
+            // No user is signed in
+        }
+    }
+
+    private fun deleteUserResume(){
+        val user = FirebaseAuth.getInstance().currentUser
+        firebaseDatabase = FirebaseDatabase.getInstance().reference
+        if (user != null){
+            firebaseDatabase.child("resume").child(user?.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
+        } else {
+            // No user is signed in
+        }
+    }
+
+    private fun updateUserJobs(){
+        val user = FirebaseAuth.getInstance().currentUser
+        firebaseDatabase = FirebaseDatabase.getInstance().reference
+        if (user != null){
+            firebaseDatabase.child("jobs").child(user?.email.toString().substringBefore('.')).setValue("test job")
+        } else {
+            // No user is signed in
+        }
+    }
+
+    private fun deleteUserJobs(){
+        val user = FirebaseAuth.getInstance().currentUser
+        firebaseDatabase = FirebaseDatabase.getInstance().reference
+        if (user != null){
+            firebaseDatabase.child("jobs").child(user?.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
+        } else {
+            // No user is signed in
+        }
+    }
+
+    private fun updateUsers(){
+        val user = FirebaseAuth.getInstance().currentUser
+        firebaseDatabase = FirebaseDatabase.getInstance().reference
+        if (user != null){
+            firebaseDatabase.child("users").child(user?.email.toString().substringBefore('.')).setValue(user.uid)
+        } else {
+            // No user is signed in
+        }
+    }
+
+    private fun deleteUsers(){
+        val user = FirebaseAuth.getInstance().currentUser
+        firebaseDatabase = FirebaseDatabase.getInstance().reference
+        if (user != null){
+            firebaseDatabase.child("users").child(user?.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
+        } else {
+            // No user is signed in
         }
     }
 
