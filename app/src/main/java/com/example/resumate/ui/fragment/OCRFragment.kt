@@ -21,6 +21,8 @@ import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import java.io.File
@@ -31,6 +33,7 @@ import kotlin.system.exitProcess
 
 class OCRFragment : Fragment(), View.OnClickListener{
     private var test = false
+    private lateinit var firebaseDatabase: DatabaseReference
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var imageBMP:Bitmap
     private lateinit var currentPhotoPath: String
