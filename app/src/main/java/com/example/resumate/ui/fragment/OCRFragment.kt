@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
@@ -25,6 +26,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import kotlinx.android.synthetic.main.ocr_layout.*
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.nodes.Element
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -67,6 +72,10 @@ class OCRFragment : Fragment(), View.OnClickListener{
         addJobsButton.setOnClickListener(this)
         val deleteJobsButton: Button = v.findViewById(R.id.delete_job_button)
         deleteJobsButton.setOnClickListener(this)
+        val compareResumeButton: Button = v.findViewById(R.id.compare_button)
+        compareResumeButton.setOnClickListener(this)
+        val webpageLink: EditText = v.findViewById(R.id.webpage_link)
+        webpageLink.setOnClickListener(this)
 
         return v
     }
@@ -105,6 +114,11 @@ class OCRFragment : Fragment(), View.OnClickListener{
             R.id.delete_job_button -> deleteUserJobs()
             R.id.add_user_button -> updateUsers()
             R.id.delete_user_button -> deleteUsers()
+            R.id.compare_button -> {
+                // First it should check that there is a link and that there is a resume file
+                scrapeWebpage()
+                // display results by going to another page
+            }
         }
     }
 
@@ -258,5 +272,22 @@ class OCRFragment : Fragment(), View.OnClickListener{
         val rotated = Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
         img.recycle()
         return rotated
+    }
+
+    private fun scrapeWebpage(){
+        val webpage = webpage_link.text.toString()
+        val doc: Document
+        try {
+             doc = Jsoup.connect(webpage).get()
+             val title:String = doc.title()
+          System.out.print(title)
+         } catch (e:IOException ) {
+             // TODO Auto-generated catch block
+             e.printStackTrace()
+         }
+        //val body: Element = doc.body()
+
+        //activity?.finish()
+        //startActivity(Intent("com.example.resumate.ui.main.OCR"))
     }
 }

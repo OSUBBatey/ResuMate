@@ -12,4 +12,6 @@
     <string name="loginPrompt">Please Login Below</string>
     <string name="ResuMate">ResuMate</string>
     <string name="logout">Logout</string>
+    <string name="webpageLink">Paste Webpage Link to Compare Resume with Job</string>
+    <string name ="compare">Compare with Resume</string>
 </resources>
