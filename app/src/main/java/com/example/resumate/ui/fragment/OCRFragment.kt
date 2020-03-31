@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
@@ -116,8 +117,20 @@ class OCRFragment : Fragment(), View.OnClickListener{
             R.id.delete_user_button -> deleteUsers()
             R.id.compare_button -> {
                 // First it should check that there is a link and that there is a resume file
-                scrapeWebpage()
-                // display results by going to another page
+                //scrapeWebpage()
+                val webpage = webpage_link.text.toString()
+                if(webpage.isEmpty()){
+                    Toast.makeText(
+                        activity, "Webpage link is empty.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    val doc: Document
+                    System.out.println(webpage)
+                    // display results by going to another page
+                    activity?.finish()
+                    startActivity(Intent("com.example.resumate.ui.main.DisplayResults"))
+                }
             }
         }
     }
@@ -274,6 +287,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         return rotated
     }
 
+    /*
     private fun scrapeWebpage(){
         val webpage = webpage_link.text.toString()
         val doc: Document
@@ -282,12 +296,11 @@ class OCRFragment : Fragment(), View.OnClickListener{
              val title:String = doc.title()
           System.out.print(title)
          } catch (e:IOException ) {
-             // TODO Auto-generated catch block
              e.printStackTrace()
          }
-        //val body: Element = doc.body()
+        val body: Element = doc.body()
 
-        //activity?.finish()
-        //startActivity(Intent("com.example.resumate.ui.main.OCR"))
     }
+
+     */
 }

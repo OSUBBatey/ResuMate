@@ -51,6 +51,12 @@ the camera on functions that use it-->
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.activity.DisplayResultsActivity" >
+            <intent-filter>
+                <action android:name="com.example.resumate.ui.main.DisplayResults"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
