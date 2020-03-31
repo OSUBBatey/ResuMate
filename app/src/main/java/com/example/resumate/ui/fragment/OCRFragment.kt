@@ -75,8 +75,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
         deleteJobsButton.setOnClickListener(this)
         val compareResumeButton: Button = v.findViewById(R.id.compare_button)
         compareResumeButton.setOnClickListener(this)
-        val webpageLink: EditText = v.findViewById(R.id.webpage_link)
-        webpageLink.setOnClickListener(this)
 
         return v
     }
@@ -126,7 +124,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
                     ).show()
                 } else {
                     val doc: Document
-                    System.out.println(webpage)
                     // display results by going to another page
                     activity?.finish()
                     startActivity(Intent("com.example.resumate.ui.main.DisplayResults"))
