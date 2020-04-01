@@ -1,10 +1,12 @@
 package com.example.resumate.ui.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -18,10 +20,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
+import com.example.resumate.ui.activity.OCRActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -114,20 +118,27 @@ class OCRFragment : Fragment(), View.OnClickListener{
             R.id.add_user_button -> updateUsers()
             R.id.delete_user_button -> deleteUsers()
             R.id.compare_button -> {
-                // First it should check that there is a link and that there is a resume file
-                //scrapeWebpage()
+                // TODO: First check that there is a resume file
+
                 val webpage = webpage_link.text.toString()
+                // Check if link is empty
                 if(webpage.isEmpty()){
                     Toast.makeText(
                         activity, "Webpage link is empty.",
                         Toast.LENGTH_SHORT
                     ).show()
-                } else {
-                    val doc: Document
-                    // display results by going to another page
-                    activity?.finish()
-                    startActivity(Intent("com.example.resumate.ui.main.DisplayResults"))
+                }  else if (!(webpage.startsWith("https://"))) {
+                    // Check if link format is correct
+                    Toast.makeText(
+                        activity, "Webpage link must start with https://",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }else {
+                    //val task: StartAsyncTask = StartAsyncTask(context)
+                    StartAsyncTask().execute(webpage)
+                        // Need to pass in the results to the next page after comparing
                 }
+
             }
         }
     }
@@ -284,20 +295,40 @@ class OCRFragment : Fragment(), View.OnClickListener{
         return rotated
     }
 
-    /*
-    private fun scrapeWebpage(){
-        val webpage = webpage_link.text.toString()
-        val doc: Document
-        try {
-             doc = Jsoup.connect(webpage).get()
-             val title:String = doc.title()
-          System.out.print(title)
-         } catch (e:IOException ) {
-             e.printStackTrace()
-         }
-        val body: Element = doc.body()
+    inner class StartAsyncTask: AsyncTask<String, Any, Any>() {
 
+        /*
+        lateinit var context: Context
+
+        fun StartAsyncTask(context: Context) {
+            this.context = context.getApplicationContext()
+        }
+
+         */
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun doInBackground(vararg params: String?): Boolean {
+
+            try {
+                val doc: Document =
+                    Jsoup.connect(params[0]).get()
+                val body: String = doc.body().text()
+                System.out.println(body)
+                return true
+            } catch (e: Exception){
+                System.err.println("Error " + e)
+                return false
+            }
+       }
+
+        override fun onPostExecute(result: Any?) {
+            super.onPostExecute(result)
+            if(result == true) {
+                startActivity(Intent("com.example.resumate.ui.main.DisplayResults"))
+            }
+        }
     }
-
-     */
 }
