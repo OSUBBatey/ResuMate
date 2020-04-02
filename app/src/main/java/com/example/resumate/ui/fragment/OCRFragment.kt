@@ -37,6 +37,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var imageBMP:Bitmap
     private lateinit var currentPhotoPath: String
+    private var i = 0
 
     companion object {
         fun newInstance() = OCRFragment()
@@ -93,7 +94,9 @@ class OCRFragment : Fragment(), View.OnClickListener{
 
     override fun onClick(v: View) {
         when(v.id){
-            R.id.view_button -> runRecog()
+            R.id.view_button -> {
+                    runRecog()
+            }
             R.id.choose_button -> captureImg()
             R.id.logout_button -> {
                 FirebaseAuth.getInstance().signOut()
@@ -112,7 +115,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         val user = FirebaseAuth.getInstance().currentUser
         firebaseDatabase = FirebaseDatabase.getInstance().reference
         if (user != null){
-            firebaseDatabase.child("resume").child(user?.email.toString().substringBefore('.')).setValue("test resume")
+            firebaseDatabase.child("resume").child(user.email.toString().substringBefore('.')).setValue("test resume")
         } else {
             // No user is signed in
         }
@@ -122,7 +125,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         val user = FirebaseAuth.getInstance().currentUser
         firebaseDatabase = FirebaseDatabase.getInstance().reference
         if (user != null){
-            firebaseDatabase.child("resume").child(user?.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
+            firebaseDatabase.child("resume").child(user.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
         } else {
             // No user is signed in
         }
@@ -132,7 +135,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         val user = FirebaseAuth.getInstance().currentUser
         firebaseDatabase = FirebaseDatabase.getInstance().reference
         if (user != null){
-            firebaseDatabase.child("jobs").child(user?.email.toString().substringBefore('.')).setValue("test job")
+            firebaseDatabase.child("jobs").child(user.email.toString().substringBefore('.')).setValue("test job")
         } else {
             // No user is signed in
         }
@@ -142,7 +145,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         val user = FirebaseAuth.getInstance().currentUser
         firebaseDatabase = FirebaseDatabase.getInstance().reference
         if (user != null){
-            firebaseDatabase.child("jobs").child(user?.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
+            firebaseDatabase.child("jobs").child(user.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
         } else {
             // No user is signed in
         }
@@ -152,7 +155,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         val user = FirebaseAuth.getInstance().currentUser
         firebaseDatabase = FirebaseDatabase.getInstance().reference
         if (user != null){
-            firebaseDatabase.child("users").child(user?.email.toString().substringBefore('.')).setValue(user.uid)
+            firebaseDatabase.child("users").child(user.email.toString().substringBefore('.')).setValue(user.uid)
         } else {
             // No user is signed in
         }
@@ -162,7 +165,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         val user = FirebaseAuth.getInstance().currentUser
         firebaseDatabase = FirebaseDatabase.getInstance().reference
         if (user != null){
-            firebaseDatabase.child("users").child(user?.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
+            firebaseDatabase.child("users").child(user.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
         } else {
             // No user is signed in
         }
@@ -241,7 +244,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
 
             val photoW = outWidth
             val photoH = outHeight
-            val scaleFactor: Int = Math.min(photoW / 1920, photoH / 1080)
+            val scaleFactor: Int = (photoW / 1920).coerceAtMost(photoH / 1080)
 
             inJustDecodeBounds = false
             inSampleSize = scaleFactor

@@ -12,7 +12,6 @@ require a camera to be installed but need to account for checking for
 the camera on functions that use it-->
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -42,6 +41,12 @@ the camera on functions that use it-->
         <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="com.example.resumate.ui.main.Login"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.RecyclerActivity">
+            <intent-filter>
+                <action android:name="com.example.resumate.ui.main.Recycler"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
