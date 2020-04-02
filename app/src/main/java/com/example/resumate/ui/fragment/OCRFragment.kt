@@ -297,15 +297,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
 
     inner class StartAsyncTask: AsyncTask<String, Any, Any>() {
 
-        /*
-        lateinit var context: Context
-
-        fun StartAsyncTask(context: Context) {
-            this.context = context.getApplicationContext()
-        }
-
-         */
-
         override fun onPreExecute() {
             super.onPreExecute()
         }
@@ -315,7 +306,8 @@ class OCRFragment : Fragment(), View.OnClickListener{
             try {
                 val doc: Document =
                     Jsoup.connect(params[0]).get()
-                val body: String = doc.body().text()
+                val body = Jsoup.parse(doc.body().text()).text()
+
                 System.out.println(body)
                 return true
             } catch (e: Exception){
