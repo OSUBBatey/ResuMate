@@ -47,11 +47,11 @@ class LoginFragment : Fragment(), View.OnClickListener{
     private fun emailOrPassEmpty(emailStr: String, passwordStr: String): Boolean {
         if (emailStr.isEmpty() || passwordStr.isEmpty()){
             if (emailStr.isEmpty()) {
-                email.setError("Email was not provided")
+                email.error = "Email was not provided"
                 email.isFocusable = true
             }
             if (passwordStr.isEmpty()) {
-                password.setError("Password was not provided")
+                password.error = "Password was not provided"
                 password.isFocusable = true
             }
             return true

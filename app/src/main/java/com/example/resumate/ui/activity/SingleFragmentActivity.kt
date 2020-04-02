@@ -14,7 +14,7 @@ abstract class SingleFragmentActivity : AppCompatActivity() {
 
     abstract fun createFrag():Fragment
 
-    protected fun getLayoutResId():Int{return R.layout.single_fragment_activity
+    private fun getLayoutResId():Int{return R.layout.single_fragment_activity
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
