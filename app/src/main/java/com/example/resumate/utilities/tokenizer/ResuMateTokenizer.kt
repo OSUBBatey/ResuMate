@@ -16,6 +16,7 @@ fun createTokenSetFromWebpageLink(strIn:String) : MutableList<String>{
     result.removeAll(statesList)
     result.removeAll(alphabet)
     result.removeAll(number)
+    result.removeAll(symbols)
 
     return result
 }

@@ -1,5 +1,6 @@
 package com.example.resumate.ui.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -22,6 +23,7 @@ import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
+import com.example.resumate.utilities.dataModel
 import com.example.resumate.utilities.tokenizer.createTokenSetFromWebpageLink
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -43,8 +45,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var imageBMP:Bitmap
     private lateinit var currentPhotoPath: String
-    private lateinit var fullResume: String
-    private lateinit var sanitizedResume:List<String>
 
     companion object {
         fun newInstance() = OCRFragment()
@@ -72,26 +72,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
         compareResumeButton.setOnClickListener(this)
 
         return v
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("DEBUG", "CHECKING TEST VAR BEFORE ONPAUSE")
-        Log.d("DEBUG", "CURRENT VAL:")
-        Log.d("DEBUG", test.toString())
-        Log.d("DEBUG", "SETTING TEST VAR:")
-        test = true
-        Log.d("DEBUG", "NEW VALUE:")
-        Log.d("DEBUG", test.toString())
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (test) {
-            Log.d("DEBUG", "CHECKING TEST VAR AFTER RESUME")
-            Log.d("DEBUG", "CURRENT VALUE:")
-            Log.d("DEBUG", test.toString())
-        }
     }
 
     override fun onClick(v: View) {
@@ -158,7 +138,11 @@ class OCRFragment : Fragment(), View.OnClickListener{
         activity?.finish()
         startActivity(Intent("com.example.resumate.ui.main.Login"))
     }
-    //Temporary OCR (Same function as OCR2)
+
+    private fun goToRecycler(){
+        startActivity(Intent("com.example.resumate.ui.main.Recycler"))
+    }
+
     private fun runRecog(){
         val tView = activity?.findViewById<TextView>(R.id.ocrTextView)
         val image = FirebaseVisionImage.fromBitmap(imageBMP)
@@ -168,12 +152,13 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 val t = p0!!.text
                 print(t)
                 tView?.text = t
-                fullResume = t
-                saveResume(fullResume)
+                dataModel.completeResume = t
+                saveResume(t)
                 tView?.textSize = 16.toFloat()
                 tView?.movementMethod = ScrollingMovementMethod()
                 tView?.invalidate()
                 sanitizeResume()
+                goToRecycler()
             }
             .addOnFailureListener { e ->
                 print(message = "Failed with exception$e")
@@ -191,13 +176,9 @@ class OCRFragment : Fragment(), View.OnClickListener{
     }
 
     private fun sanitizeResume(){
-        sanitizedResume =
-            createTokenSetFromWebpageLink(
-                fullResume
-            )
-        //  val temp = removeWordSet(sanitizedResume, commonWordList)
-        // sanitizedResume = removeWordSet(temp, statesList)
-        Log.d("DEBUG", sanitizedResume.toString())
+        dataModel.sanitizedResume =
+            createTokenSetFromWebpageLink(dataModel.completeResume)
+        Log.d("DEBUG", dataModel.sanitizedResume.toString())
     }
 
     private fun captureImg(){
@@ -219,6 +200,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun getImgFile():File{
 
         val ts = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
@@ -282,14 +264,11 @@ class OCRFragment : Fragment(), View.OnClickListener{
                     Jsoup.connect(params[0]).get()
                 val body: String = Jsoup.parse(doc.body().text()).text()
                 val tokenizedWebpage: MutableList<String> =
-                    createTokenSetFromWebpageLink(
-                        body.toLowerCase()
-                    )
-                System.out.println(tokenizedWebpage)
+                    createTokenSetFromWebpageLink(body)
+                println(tokenizedWebpage)
                 return true
             } catch (e: Exception){
-
-                System.out.println("Error " + e)
+                println("Error $e")
                 return false
             }
        }

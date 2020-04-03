@@ -111,6 +111,7 @@ class LoginFragment : Fragment(), View.OnClickListener{
     }
 
     private fun goToOCR(){
+        dataModel.userName = emailStr.substringBefore("@")
         activity?.finish()
         startActivity(Intent("com.example.resumate.ui.main.OCR"))
     }
