@@ -149,7 +149,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 tView?.movementMethod = ScrollingMovementMethod()
                 tView?.invalidate()
                 sanitizeResume()
-                //goToRecycler()
+                Toast.makeText(activity, "OCR ANALYSIS COMPLETE!!", Toast.LENGTH_SHORT).show();
             }
             .addOnFailureListener { e ->
                 print(message = "Failed with exception$e")

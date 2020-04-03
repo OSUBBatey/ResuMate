@@ -24,6 +24,7 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     private lateinit var skillTextIn: String
     private lateinit var skillBox :TextView
     private var firstPos = 1
+    private var lastPos = 0
     private lateinit var firebaseDatabase: DatabaseReference
 
     companion object {
@@ -43,10 +44,12 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
         val v = inflater.inflate(R.layout.recycler_layout, container, false)
         val remSkillButton:Button = v.findViewById(R.id.remove_skill_button)
         val addSkillButton:Button = v.findViewById(R.id.add_skill_button)
+        val editSkillButton:Button = v.findViewById(R.id.edit_button)
         skillBox = v.findViewById(R.id.skill_TextBox)
 
         remSkillButton.setOnClickListener(this)
         addSkillButton.setOnClickListener(this)
+        editSkillButton.setOnClickListener(this)
 
         return v
     }
@@ -62,13 +65,10 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
                     obj.mImageResource = R.drawable.ic_star
                 }
                 mAdapter.notifyItemChanged(pos)
+                lastPos = pos
             }
             adapter = mAdapter
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
     }
 
     private fun initSkillsList(){
@@ -99,7 +99,8 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     override fun onClick(v: View) {
         when(v.id){
             R.id.remove_skill_button -> removeMarkedSkills()
-            R.id.add_skill_button -> addSkillatLastPos()
+            R.id.add_skill_button -> addSkillAtTop()
+            R.id.edit_button -> editSkillAtLastPos()
         }
     }
 
@@ -120,13 +121,40 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
         saveUserSkills()
     }
 
-    private fun addSkillatLastPos(){
+    private fun addSkillAtTop(){
         skillTextIn = skillBox.text.toString()
         skillBox.text = ""
         skillBox.invalidate()
+        firstPos = if(skillList.size == 0){
+            0
+        }else{
+            1
+        }
         skillList.add(firstPos, RecyclerItemObj(R.drawable.ic_star, skillTextIn))
         mAdapter.notifyItemInserted(firstPos)
         mAdapter.notifyItemRangeChanged(firstPos, skillList.size)
+        saveUserSkills()
+    }
+
+    private fun getSkillAtLastPos(){
+        skillBox.text = skillList[lastPos].objText
+        skillBox.invalidate()
+    }
+
+    private fun updateSkillAtLastPos(){
+        skillTextIn = skillBox.text.toString()
+        skillBox.text = ""
+        skillBox.invalidate()
+        skillList[lastPos].objText = skillTextIn
+        mAdapter.notifyItemChanged(lastPos)
+    }
+
+    private fun editSkillAtLastPos() {
+        if (skillList[lastPos].mImageResource == R.drawable.ic_star) {
+            getSkillAtLastPos()
+        }else{
+            updateSkillAtLastPos()
+        }
         saveUserSkills()
     }
 }

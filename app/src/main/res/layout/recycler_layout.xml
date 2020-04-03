@@ -16,12 +16,12 @@
 
     <Button
         android:id="@+id/add_skill_button"
-        android:layout_width="wrap_content"
+        android:layout_width="69dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="74dp"
+        android:layout_marginBottom="1dp"
         android:text="@string/add_skill"
         tools:ignore="RelativeOverlap" />
 
@@ -31,24 +31,35 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginBottom="5dp"
         android:text="@string/rem_skill"
         android:textSize="12sp" />
 
     <EditText
         android:id="@+id/skill_TextBox"
-        android:layout_width="140dp"
+        android:layout_width="137dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginEnd="130dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginEnd="148dp"
+        android:layout_marginBottom="4dp"
+        android:autofillHints="Skill Entry"
         android:ems="10"
         android:inputType="textPersonName"
-        android:textAlignment="center"
         android:text="@string/enter_skill"
-        android:autofillHints="Skill Entry"
+        android:textAlignment="center"
         tools:ignore="LabelFor" />
+
+    <Button
+        android:id="@+id/edit_button"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="1dp"
+        android:textSize="12sp"
+        android:text="@string/edit" />
 </RelativeLayout>
