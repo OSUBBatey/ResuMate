@@ -1,4 +1,4 @@
-package com.example.resumate.utilities
+package com.example.resumate.utilities.tokenizer
 
 val commonWordList: List<String> = listOf("the","of","to","and","a","in","is","it","you","that","he",
     "was","for","on","are","with","as","I","his","they","be","at","one","have","this","from","or",

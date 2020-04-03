@@ -1,7 +1,6 @@
 package com.example.resumate.ui.fragment
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -17,19 +16,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
-import com.example.resumate.ui.activity.DisplayResultsActivity
-import com.example.resumate.ui.activity.OCRActivity
-import com.example.resumate.utilities.createTokenSetFromWebpageLink
-import com.example.resumate.utilities.createTokenSetFromWebpageLink
-import com.example.resumate.utilities.createTokenSetFromWebpageLink
+import com.example.resumate.utilities.tokenizer.createTokenSetFromWebpageLink
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -50,7 +43,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
     private val REQUEST_IMAGE_CAPTURE = 1
     private lateinit var imageBMP:Bitmap
     private lateinit var currentPhotoPath: String
-    private var i = 0
     private lateinit var fullResume: String
     private lateinit var sanitizedResume:List<String>
 
@@ -181,6 +173,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 tView?.textSize = 16.toFloat()
                 tView?.movementMethod = ScrollingMovementMethod()
                 tView?.invalidate()
+                sanitizeResume()
             }
             .addOnFailureListener { e ->
                 print(message = "Failed with exception$e")
@@ -198,7 +191,10 @@ class OCRFragment : Fragment(), View.OnClickListener{
     }
 
     private fun sanitizeResume(){
-        sanitizedResume = createTokenSetFromWebpageLink(fullResume)
+        sanitizedResume =
+            createTokenSetFromWebpageLink(
+                fullResume
+            )
         //  val temp = removeWordSet(sanitizedResume, commonWordList)
         // sanitizedResume = removeWordSet(temp, statesList)
         Log.d("DEBUG", sanitizedResume.toString())
@@ -285,7 +281,10 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 val doc: Document =
                     Jsoup.connect(params[0]).get()
                 val body: String = Jsoup.parse(doc.body().text()).text()
-                val tokenizedWebpage: MutableList<String> = createTokenSetFromWebpageLink(body.toLowerCase())
+                val tokenizedWebpage: MutableList<String> =
+                    createTokenSetFromWebpageLink(
+                        body.toLowerCase()
+                    )
                 System.out.println(tokenizedWebpage)
                 return true
             } catch (e: Exception){

@@ -1,4 +1,4 @@
-package com.example.resumate.utilities
+package com.example.resumate.utilities.tokenizer
 
 import java.util.*
 
