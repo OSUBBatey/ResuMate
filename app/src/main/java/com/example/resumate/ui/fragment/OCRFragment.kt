@@ -26,6 +26,9 @@ import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
 import com.example.resumate.ui.activity.OCRActivity
+import com.example.resumate.utilities.createTokenSetFromString
+import com.example.resumate.utilities.createTokenSetFromString
+import com.example.resumate.utilities.createTokenSetFromWebpageLink
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -309,12 +312,13 @@ class OCRFragment : Fragment(), View.OnClickListener{
             try {
                 val doc: Document =
                     Jsoup.connect(params[0]).get()
-                val body = Jsoup.parse(doc.body().text()).text()
-
-                System.out.println(body)
+                val body: String = Jsoup.parse(doc.body().text()).text()
+                val tokenizedWebpage: MutableList<String> = createTokenSetFromWebpageLink(body)
+System.out.println(tokenizedWebpage)
                 return true
             } catch (e: Exception){
-                System.err.println("Error " + e)
+
+                System.out.println("Error " + e)
                 return false
             }
        }
@@ -323,6 +327,12 @@ class OCRFragment : Fragment(), View.OnClickListener{
             super.onPostExecute(result)
             if(result == true) {
                 startActivity(Intent("com.example.resumate.ui.main.DisplayResults"))
+            }
+            if(result == false){
+                Toast.makeText(
+                    activity, "There's an error with this link, please try another one.",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
