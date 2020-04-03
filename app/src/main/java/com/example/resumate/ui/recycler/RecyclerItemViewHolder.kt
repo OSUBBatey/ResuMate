@@ -18,5 +18,4 @@ class RecyclerItemViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
         imgV.setImageResource(recObj.mImageResource)
         textV.text = recObj.objText
     }
-
 }
