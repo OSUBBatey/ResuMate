@@ -73,9 +73,12 @@ val commonWordList: List<String> = listOf("the","of","to","and","a","in","is","i
     "bar","offer","segment","slave","duck","instant","market","degree","populate","chick","dear","enemy","reply","drink",
     "occur","support","speech","nature","range","steam","motion", "expertise")
 
-val statesList: List<String> = listOf("Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida",
-    "Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine",
-    "Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska",
-    "Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio",
-    "Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee",
-    "Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming")
+val statesList: List<String> = listOf("alabama","alaska","arizona","arkansas","california","colorado","connecticut","delaware","florida",
+    "georgia","hawaii","idaho","illinois","indiana","iowa","kansas","kentucky","louisiana","maine",
+    "maryland","massachusetts","michigan","minnesota","mississippi","missouri","montana","nebraska",
+    "nevada","new hampshire","new jersey","new mexico","new york","carolina","north","ohio",
+    "oklahoma","oregon","pennsylvania","rhode","island","south", "carolina","dakota","tennessee",
+    "texas","utah","vermont","virginia","washington","west virginia","wisconsin","wyoming")
+
+val alphabet:List<String> = listOf("a","b","d","e","f","g","h","i","j","k","l","m","n","o","p","q","s","t","u","v","w","x","y","z")
+val number :List<String> = listOf("1","2","3","4","5","6","7","8","9","0")

@@ -1,7 +1,6 @@
 package com.example.resumate.ui.fragment
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -17,18 +16,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
-import com.example.resumate.ui.activity.OCRActivity
-import com.example.resumate.utilities.createTokenSetFromString
-import com.example.resumate.utilities.createTokenSetFromString
-import com.example.resumate.utilities.createTokenSetFromWebpageLink
+import com.example.resumate.utilities.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -50,6 +44,8 @@ class OCRFragment : Fragment(), View.OnClickListener{
     private lateinit var imageBMP:Bitmap
     private lateinit var currentPhotoPath: String
     private var i = 0
+    private lateinit var fullResume:String
+    private lateinit var sanitizedResume:List<String>
 
     companion object {
         fun newInstance() = OCRFragment()
@@ -109,7 +105,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
     override fun onClick(v: View) {
         when(v.id){
             R.id.view_button -> {
-                    runRecog()
+                runRecog()
             }
             R.id.choose_button -> captureImg()
             R.id.logout_button -> {
@@ -222,13 +218,22 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 val t = p0!!.text
                 print(t)
                 tView?.text = t
+                fullResume = t
                 tView?.textSize = 16.toFloat()
                 tView?.movementMethod = ScrollingMovementMethod()
                 tView?.invalidate()
+                sanitizeResume()
             }
             .addOnFailureListener { e ->
                 print(message = "Failed with exception$e")
             }
+    }
+
+    private fun sanitizeResume(){
+        sanitizedResume = createTokenSetFromWebpageLink(fullResume)
+      //  val temp = removeWordSet(sanitizedResume, commonWordList)
+       // sanitizedResume = removeWordSet(temp, statesList)
+        Log.d("DEBUG", sanitizedResume.toString())
     }
 
     private fun captureImg(){
@@ -316,7 +321,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 System.out.println(tokenizedWebpage)
                 return true
             } catch (e: Exception){
-
                 System.out.println("Error " + e)
                 return false
             }
