@@ -37,7 +37,6 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import kotlinx.android.synthetic.main.ocr_layout.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
