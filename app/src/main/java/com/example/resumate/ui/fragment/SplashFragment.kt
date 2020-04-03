@@ -26,7 +26,7 @@ class SplashFragment : Fragment(){
         val waitTime:Long = 1250
         Handler().postDelayed({
             activity?.finish()
-            startActivity(Intent("com.example.resumate.ui.main.Recycler"))
+            startActivity(Intent("com.example.resumate.ui.main.Login"))
         }, waitTime)
 
     }
