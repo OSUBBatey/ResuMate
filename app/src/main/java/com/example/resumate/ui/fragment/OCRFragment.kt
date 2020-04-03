@@ -312,8 +312,8 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 val doc: Document =
                     Jsoup.connect(params[0]).get()
                 val body: String = Jsoup.parse(doc.body().text()).text()
-                val tokenizedWebpage: MutableList<String> = createTokenSetFromWebpageLink(body)
-System.out.println(tokenizedWebpage)
+                val tokenizedWebpage: MutableList<String> = createTokenSetFromWebpageLink(body.toLowerCase())
+                System.out.println(tokenizedWebpage)
                 return true
             } catch (e: Exception){
 
