@@ -1,6 +1,7 @@
 package com.example.resumate.ui.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -16,13 +17,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
-import com.example.resumate.utilities.*
+import com.example.resumate.ui.activity.DisplayResultsActivity
+import com.example.resumate.ui.activity.OCRActivity
+import com.example.resumate.utilities.createTokenSetFromString
+import com.example.resumate.utilities.createTokenSetFromString
+import com.example.resumate.utilities.createTokenSetFromWebpageLink
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -44,11 +51,11 @@ class OCRFragment : Fragment(), View.OnClickListener{
     private lateinit var imageBMP:Bitmap
     private lateinit var currentPhotoPath: String
     private var i = 0
-    private lateinit var fullResume:String
-    private lateinit var sanitizedResume:List<String>
+    private lateinit var fullResume: String
 
     companion object {
         fun newInstance() = OCRFragment()
+        lateinit var job_url: String
     }
 
     override fun onCreateView(
@@ -64,18 +71,10 @@ class OCRFragment : Fragment(), View.OnClickListener{
         viewButton.setOnClickListener(this)
         val logoutButton: Button = v.findViewById(R.id.logout_button)
         logoutButton.setOnClickListener(this)
-        val addResumeButton: Button = v.findViewById(R.id.add_resume_button)
-        addResumeButton.setOnClickListener(this)
-        val deleteResumeButton: Button = v.findViewById(R.id.delete_resume_button)
-        deleteResumeButton.setOnClickListener(this)
         val addUserButton: Button = v.findViewById(R.id.add_user_button)
         addUserButton.setOnClickListener(this)
         val deleteUserButton: Button = v.findViewById(R.id.delete_user_button)
         deleteUserButton.setOnClickListener(this)
-        val addJobsButton: Button = v.findViewById(R.id.add_job_button)
-        addJobsButton.setOnClickListener(this)
-        val deleteJobsButton: Button = v.findViewById(R.id.delete_job_button)
-        deleteJobsButton.setOnClickListener(this)
         val compareResumeButton: Button = v.findViewById(R.id.compare_button)
         compareResumeButton.setOnClickListener(this)
 
@@ -105,23 +104,21 @@ class OCRFragment : Fragment(), View.OnClickListener{
     override fun onClick(v: View) {
         when(v.id){
             R.id.view_button -> {
-                runRecog()
+                    runRecog()
             }
             R.id.choose_button -> captureImg()
             R.id.logout_button -> {
                 FirebaseAuth.getInstance().signOut()
                 goToLogin()
             }
-            R.id.add_resume_button -> updateUserResume()
-            R.id.delete_resume_button -> deleteUserResume()
-            R.id.add_job_button -> updateUserJobs()
-            R.id.delete_job_button -> deleteUserJobs()
             R.id.add_user_button -> updateUsers()
             R.id.delete_user_button -> deleteUsers()
             R.id.compare_button -> {
                 // TODO: First check that there is a resume file
 
                 val webpage = webpage_link.text.toString()
+                job_url = webpage
+
                 // Check if link is empty
                 if(webpage.isEmpty()){
                     Toast.makeText(
@@ -141,46 +138,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 }
 
             }
-        }
-    }
-
-    private fun updateUserResume(){
-        val user = FirebaseAuth.getInstance().currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance().reference
-        if (user != null){
-            firebaseDatabase.child("resume").child(user.email.toString().substringBefore('.')).setValue("test resume")
-        } else {
-            // No user is signed in
-        }
-    }
-
-    private fun deleteUserResume(){
-        val user = FirebaseAuth.getInstance().currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance().reference
-        if (user != null){
-            firebaseDatabase.child("resume").child(user.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
-        } else {
-            // No user is signed in
-        }
-    }
-
-    private fun updateUserJobs(){
-        val user = FirebaseAuth.getInstance().currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance().reference
-        if (user != null){
-            firebaseDatabase.child("jobs").child(user.email.toString().substringBefore('.')).setValue("test job")
-        } else {
-            // No user is signed in
-        }
-    }
-
-    private fun deleteUserJobs(){
-        val user = FirebaseAuth.getInstance().currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance().reference
-        if (user != null){
-            firebaseDatabase.child("jobs").child(user.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
-        } else {
-            // No user is signed in
         }
     }
 
@@ -219,21 +176,24 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 print(t)
                 tView?.text = t
                 fullResume = t
+                saveResume(fullResume)
                 tView?.textSize = 16.toFloat()
                 tView?.movementMethod = ScrollingMovementMethod()
                 tView?.invalidate()
-                sanitizeResume()
             }
             .addOnFailureListener { e ->
                 print(message = "Failed with exception$e")
             }
     }
 
-    private fun sanitizeResume(){
-        sanitizedResume = createTokenSetFromWebpageLink(fullResume)
-      //  val temp = removeWordSet(sanitizedResume, commonWordList)
-       // sanitizedResume = removeWordSet(temp, statesList)
-        Log.d("DEBUG", sanitizedResume.toString())
+    private fun saveResume(resume: String) {
+        val user = FirebaseAuth.getInstance().currentUser
+        firebaseDatabase = FirebaseDatabase.getInstance().reference
+        if (user != null){
+            firebaseDatabase.child("resume").child(user.email.toString().substringBefore('.')).setValue(resume)
+        } else {
+            // No user is signed in
+        }
     }
 
     private fun captureImg(){
@@ -321,6 +281,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 System.out.println(tokenizedWebpage)
                 return true
             } catch (e: Exception){
+
                 System.out.println("Error " + e)
                 return false
             }

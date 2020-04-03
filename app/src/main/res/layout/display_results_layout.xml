@@ -26,6 +26,16 @@
         app:layout_constraintLeft_toLeftOf="@+id/results_message" />
 
     <Button
+        android:id="@+id/save_job_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="308dp"
+        android:layout_marginRight="304dp"
+        android:text="Save Job"
+        app:layout_constraintRight_toRightOf="@+id/results"
+        app:layout_constraintTop_toBottomOf="@+id/results" />
+
+    <Button
         android:id="@+id/done_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
