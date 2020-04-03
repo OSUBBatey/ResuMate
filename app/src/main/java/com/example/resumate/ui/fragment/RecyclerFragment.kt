@@ -24,6 +24,8 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
 
     private val skillList : ArrayList<RecyclerItemObj> = ArrayList()
     private lateinit var mAdapter : ResListAdapter
+    private lateinit var skillTextIn: String
+    private var lastPos = 1
     companion object {
         fun newInstance() = RecyclerFragment()
     }
@@ -39,8 +41,10 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     ): View? {
         val v = inflater.inflate(R.layout.recycler_layout, container, false)
         val remSkillButton:Button = v.findViewById(R.id.remove_skill_button)
+        val addSkillButton:Button = v.findViewById(R.id.add_skill_button)
 
         remSkillButton.setOnClickListener(this)
+        addSkillButton.setOnClickListener(this)
 
         return v
     }
@@ -55,6 +59,7 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
                 }else{
                     obj.mImageResource = R.drawable.ic_star
                 }
+                lastPos = pos
                 mAdapter.notifyItemChanged(pos)
             }
             adapter = mAdapter
@@ -74,6 +79,7 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     override fun onClick(v: View) {
         when(v.id){
             R.id.remove_skill_button -> removeMarkedSkills()
+            R.id.add_skill_button -> addSkillatLastPos()
         }
     }
 
@@ -91,5 +97,11 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
                 i++
             }
         }
+    }
+
+    private fun addSkillatLastPos(){
+        skillList.add(lastPos, RecyclerItemObj(R.drawable.ic_star, skillTextIn))
+        mAdapter.notifyItemInserted(lastPos)
+        mAdapter.notifyItemRangeChanged(lastPos, skillList.size)
     }
 }
