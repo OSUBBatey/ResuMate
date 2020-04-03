@@ -150,8 +150,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
         detector .processImage(image)
             .addOnSuccessListener { p0 ->
                 val t = p0!!.text
-                print(t)
-                tView?.text = t
+                //tView?.text = t
                 dataModel.completeResume = t
                 saveResume(t)
                 tView?.textSize = 16.toFloat()

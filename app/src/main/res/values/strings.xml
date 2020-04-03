@@ -17,4 +17,6 @@
     <string name ="compare">Compare with Resume</string>
     <string name ="results_message">Your resume has been compared with the webpage you linked. The results are: </string>
     <string name ="done">Done</string>
+    <string name="add_skill">Add Skill</string>
+    <string name="rem_skill">Remove Selected</string>
 </resources>
