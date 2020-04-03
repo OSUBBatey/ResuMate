@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -25,7 +26,8 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     private val skillList : ArrayList<RecyclerItemObj> = ArrayList()
     private lateinit var mAdapter : ResListAdapter
     private lateinit var skillTextIn: String
-    private var lastPos = 1
+    private lateinit var skillBox :TextView
+    private var firstPos = 1
     companion object {
         fun newInstance() = RecyclerFragment()
     }
@@ -42,6 +44,7 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
         val v = inflater.inflate(R.layout.recycler_layout, container, false)
         val remSkillButton:Button = v.findViewById(R.id.remove_skill_button)
         val addSkillButton:Button = v.findViewById(R.id.add_skill_button)
+        skillBox = v.findViewById(R.id.skill_TextBox)
 
         remSkillButton.setOnClickListener(this)
         addSkillButton.setOnClickListener(this)
@@ -59,7 +62,6 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
                 }else{
                     obj.mImageResource = R.drawable.ic_star
                 }
-                lastPos = pos
                 mAdapter.notifyItemChanged(pos)
             }
             adapter = mAdapter
@@ -100,8 +102,11 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     }
 
     private fun addSkillatLastPos(){
-        skillList.add(lastPos, RecyclerItemObj(R.drawable.ic_star, skillTextIn))
-        mAdapter.notifyItemInserted(lastPos)
-        mAdapter.notifyItemRangeChanged(lastPos, skillList.size)
+        skillTextIn = skillBox.text.toString()
+        skillBox.text = ""
+        skillBox.invalidate()
+        skillList.add(firstPos, RecyclerItemObj(R.drawable.ic_star, skillTextIn))
+        mAdapter.notifyItemInserted(firstPos)
+        mAdapter.notifyItemRangeChanged(firstPos, skillList.size)
     }
 }

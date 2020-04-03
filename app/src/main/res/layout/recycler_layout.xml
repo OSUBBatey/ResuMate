@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="8dp"
         android:text="@string/add_skill"
         tools:ignore="RelativeOverlap" />
@@ -31,8 +31,24 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginBottom="8dp"
         android:text="@string/rem_skill"
         android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/skill_TextBox"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="11dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:text="@string/enter_skill"
+        android:autofillHints="Skill Entry"
+        tools:ignore="LabelFor" />
 </RelativeLayout>
