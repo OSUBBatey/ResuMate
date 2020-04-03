@@ -12,6 +12,7 @@
     <string name="loginPrompt">Please Login Below</string>
     <string name="ResuMate">ResuMate</string>
     <string name="logout">Logout</string>
+    <string name="skillIcon">SkillIcon</string>
     <string name="webpageLink">Paste Webpage Link to Compare Resume with Job</string>
     <string name ="compare">Compare with Resume</string>
     <string name ="results_message">Your resume has been compared with the webpage you linked. The results are: </string>
