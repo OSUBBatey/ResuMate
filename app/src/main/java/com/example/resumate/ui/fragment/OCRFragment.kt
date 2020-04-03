@@ -23,7 +23,7 @@ import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
-import com.example.resumate.utilities.dataModel
+import com.example.resumate.utilities.DataModel
 import com.example.resumate.utilities.tokenizer.createTokenSetFromWebpageLink
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -66,15 +66,16 @@ class OCRFragment : Fragment(), View.OnClickListener{
         logoutButton.setOnClickListener(this)
         val compareResumeButton: Button = v.findViewById(R.id.compare_button)
         compareResumeButton.setOnClickListener(this)
+        val ocrButton: Button = v.findViewById(R.id.ocr_button)
+        ocrButton.setOnClickListener(this)
 
         return v
     }
 
     override fun onClick(v: View) {
         when(v.id){
-            R.id.view_button -> {
-                    runRecog()
-            }
+            R.id.view_button -> goToRecycler()
+            R.id.ocr_button -> runRecog()
             R.id.choose_button -> captureImg()
             R.id.logout_button -> {
                 FirebaseAuth.getInstance().signOut()
@@ -142,13 +143,13 @@ class OCRFragment : Fragment(), View.OnClickListener{
             .addOnSuccessListener { p0 ->
                 val t = p0!!.text
                 //tView?.text = t
-                dataModel.completeResume = t
+                DataModel.completeResume = t
                 saveResume(t)
                 tView?.textSize = 16.toFloat()
                 tView?.movementMethod = ScrollingMovementMethod()
                 tView?.invalidate()
                 sanitizeResume()
-                goToRecycler()
+                //goToRecycler()
             }
             .addOnFailureListener { e ->
                 print(message = "Failed with exception$e")
@@ -166,9 +167,9 @@ class OCRFragment : Fragment(), View.OnClickListener{
     }
 
     private fun sanitizeResume(){
-        dataModel.sanitizedResume =
-            createTokenSetFromWebpageLink(dataModel.completeResume)
-        Log.d("DEBUG", dataModel.sanitizedResume.toString())
+        DataModel.userSkills =
+            createTokenSetFromWebpageLink(DataModel.completeResume)
+        Log.d("DEBUG", DataModel.userSkills.toString())
     }
 
     private fun captureImg(){

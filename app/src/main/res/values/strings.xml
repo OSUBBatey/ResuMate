@@ -20,4 +20,7 @@
     <string name="add_skill">Add Skill</string>
     <string name="rem_skill">Remove Selected</string>
     <string name="enter_skill">Enter Skill</string>
+    <string name="v_skills">Edit Skills</string>
+    <string name="capture_res">Capture Resume</string>
+    <string name="analysis">OCR Analysis</string>
 </resources>

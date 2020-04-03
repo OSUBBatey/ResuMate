@@ -12,7 +12,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
-import com.example.resumate.utilities.dataModel
+import com.example.resumate.utilities.DataModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
@@ -111,7 +111,7 @@ class LoginFragment : Fragment(), View.OnClickListener{
     }
 
     private fun goToOCR(){
-        dataModel.userName = emailStr.substringBefore("@")
+        DataModel.userName = emailStr.substringBefore("@")
         activity?.finish()
         startActivity(Intent("com.example.resumate.ui.main.OCR"))
     }

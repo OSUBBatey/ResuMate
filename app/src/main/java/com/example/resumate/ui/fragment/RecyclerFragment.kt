@@ -1,24 +1,17 @@
 package com.example.resumate.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.example.resumate.R
 import com.example.resumate.ui.recycler.RecyclerItemObj
 import com.example.resumate.ui.recycler.ResListAdapter
-import com.example.resumate.utilities.dataModel
+import com.example.resumate.utilities.DataModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -79,7 +72,7 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     }
 
     private fun initSkillsList(){
-        for(e in dataModel.sanitizedResume){
+        for(e in DataModel.userSkills){
             skillList.add(RecyclerItemObj(R.drawable.ic_star, e))
         }
     }
@@ -92,6 +85,15 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
         } else {
             // No user is signed in
         }
+    }
+
+    override fun onStop() {
+        val temp : MutableList<String> = emptyList<String>().toMutableList()
+        for(e in skillList){
+            temp.add(e.objText)
+        }
+        DataModel.userSkills = temp.toList()
+        super.onStop()
     }
 
     override fun onClick(v: View) {
