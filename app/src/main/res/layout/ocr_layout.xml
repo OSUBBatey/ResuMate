@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -110,4 +109,22 @@
         android:text="Delete User"
         app:layout_constraintEnd_toEndOf="@+id/add_user_button"
         app:layout_constraintTop_toTopOf="@+id/add_user_button" />
+
+    <EditText
+        android:id="@+id/webpage_link"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="120dp"
+        android:hint="@string/webpageLink"
+        app:layout_constraintEnd_toEndOf="@+id/delete_user_button"
+        app:layout_constraintTop_toTopOf="@+id/delete_user_button" />
+
+    <Button
+        android:id="@+id/compare_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="212dp"
+        android:text="@string/compare"
+        app:layout_constraintEnd_toEndOf="@+id/delete_user_button"
+        app:layout_constraintTop_toTopOf="@+id/delete_user_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

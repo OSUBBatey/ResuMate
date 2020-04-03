@@ -1,10 +1,12 @@
 package com.example.resumate.ui.fragment
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -15,16 +17,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.content.FileProvider
 import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
+import com.example.resumate.ui.activity.OCRActivity
+import com.example.resumate.utilities.createTokenSetFromString
+import com.example.resumate.utilities.createTokenSetFromString
+import com.example.resumate.utilities.createTokenSetFromWebpageLink
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import kotlinx.android.synthetic.main.ocr_layout.*
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -68,6 +80,8 @@ class OCRFragment : Fragment(), View.OnClickListener{
         addJobsButton.setOnClickListener(this)
         val deleteJobsButton: Button = v.findViewById(R.id.delete_job_button)
         deleteJobsButton.setOnClickListener(this)
+        val compareResumeButton: Button = v.findViewById(R.id.compare_button)
+        compareResumeButton.setOnClickListener(this)
 
         return v
     }
@@ -108,6 +122,29 @@ class OCRFragment : Fragment(), View.OnClickListener{
             R.id.delete_job_button -> deleteUserJobs()
             R.id.add_user_button -> updateUsers()
             R.id.delete_user_button -> deleteUsers()
+            R.id.compare_button -> {
+                // TODO: First check that there is a resume file
+
+                val webpage = webpage_link.text.toString()
+                // Check if link is empty
+                if(webpage.isEmpty()){
+                    Toast.makeText(
+                        activity, "Webpage link is empty.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }  else if (!(webpage.startsWith("https://"))) {
+                    // Check if link format is correct
+                    Toast.makeText(
+                        activity, "Webpage link must start with https://",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }else {
+                    //val task: StartAsyncTask = StartAsyncTask(context)
+                    StartAsyncTask().execute(webpage)
+                        // Need to pass in the results to the next page after comparing
+                }
+
+            }
         }
     }
 
@@ -261,5 +298,41 @@ class OCRFragment : Fragment(), View.OnClickListener{
         val rotated = Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
         img.recycle()
         return rotated
+    }
+
+    inner class StartAsyncTask: AsyncTask<String, Any, Any>() {
+
+        override fun onPreExecute() {
+            super.onPreExecute()
+        }
+
+        override fun doInBackground(vararg params: String?): Boolean {
+
+            try {
+                val doc: Document =
+                    Jsoup.connect(params[0]).get()
+                val body: String = Jsoup.parse(doc.body().text()).text()
+                val tokenizedWebpage: MutableList<String> = createTokenSetFromWebpageLink(body.toLowerCase())
+                System.out.println(tokenizedWebpage)
+                return true
+            } catch (e: Exception){
+
+                System.out.println("Error " + e)
+                return false
+            }
+       }
+
+        override fun onPostExecute(result: Any?) {
+            super.onPostExecute(result)
+            if(result == true) {
+                startActivity(Intent("com.example.resumate.ui.main.DisplayResults"))
+            }
+            if(result == false){
+                Toast.makeText(
+                    activity, "There's an error with this link, please try another one.",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
     }
 }

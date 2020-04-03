@@ -6,6 +6,7 @@
     <uses-feature android:name="android.hardware.camera2.autofocus"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 <!-- Set above "android:required="false" at a later point to make the app not
 require a camera to be installed but need to account for checking for
@@ -53,6 +54,12 @@ the camera on functions that use it-->
         <activity android:name=".ui.activity.OCRActivity" >
             <intent-filter>
                 <action android:name="com.example.resumate.ui.main.OCR"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.DisplayResultsActivity" >
+            <intent-filter>
+                <action android:name="com.example.resumate.ui.main.DisplayResults"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/results_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/results_message"
+        tools:layout_editor_absoluteX="-16dp"
+        app:layout_constraintBottom_toTopOf="@+id/results"
+        app:layout_constraintRight_toRightOf="@+id/results" />
+
+    <TextView
+        android:id="@+id/results"
+        android:layout_width="130dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="216dp"
+        tools:layout_editor_absoluteX="108dp"
+        app:layout_constraintTop_toBottomOf="@+id/results_message"
+        app:layout_constraintLeft_toLeftOf="@+id/results_message" />
+
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="308dp"
+        android:text="@string/done"
+        app:layout_constraintRight_toRightOf="@+id/results"
+        app:layout_constraintTop_toBottomOf="@+id/results" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
