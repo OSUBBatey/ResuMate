@@ -23,4 +23,5 @@
     <string name="v_skills">Edit Skills</string>
     <string name="capture_res">Capture Resume</string>
     <string name="analysis">OCR Analysis</string>
+    <string name="edit">Edit</string>
 </resources>
