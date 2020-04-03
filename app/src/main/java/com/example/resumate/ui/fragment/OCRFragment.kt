@@ -64,10 +64,6 @@ class OCRFragment : Fragment(), View.OnClickListener{
         viewButton.setOnClickListener(this)
         val logoutButton: Button = v.findViewById(R.id.logout_button)
         logoutButton.setOnClickListener(this)
-        val addUserButton: Button = v.findViewById(R.id.add_user_button)
-        addUserButton.setOnClickListener(this)
-        val deleteUserButton: Button = v.findViewById(R.id.delete_user_button)
-        deleteUserButton.setOnClickListener(this)
         val compareResumeButton: Button = v.findViewById(R.id.compare_button)
         compareResumeButton.setOnClickListener(this)
 
@@ -84,54 +80,49 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 FirebaseAuth.getInstance().signOut()
                 goToLogin()
             }
-            R.id.add_user_button -> updateUsers()
-            R.id.delete_user_button -> deleteUsers()
             R.id.compare_button -> {
-                // TODO: First check that there is a resume file
+                if (checkUserSkillListPresent()) {
+                    val webpage = webpage_link.text.toString()
+                    job_url = webpage
 
-                val webpage = webpage_link.text.toString()
-                job_url = webpage
-
-                // Check if link is empty
-                if(webpage.isEmpty()){
-                    Toast.makeText(
-                        activity, "Webpage link is empty.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }  else if (!(webpage.startsWith("https://"))) {
-                    // Check if link format is correct
-                    Toast.makeText(
-                        activity, "Webpage link must start with https://",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }else {
-                    //val task: StartAsyncTask = StartAsyncTask(context)
-                    StartAsyncTask().execute(webpage)
+                    // Check if link is empty
+                    if (webpage.isEmpty()) {
+                        Toast.makeText(
+                            activity, "Webpage link is empty.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else if (!(webpage.startsWith("https://"))) {
+                        // Check if link format is correct
+                        Toast.makeText(
+                            activity, "Webpage link must start with https://",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        //val task: StartAsyncTask = StartAsyncTask(context)
+                        StartAsyncTask().execute(webpage)
                         // Need to pass in the results to the next page after comparing
+                    }
+                } else {
+                    Toast.makeText(
+                        activity, "User does not have a skills list",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-
             }
         }
     }
 
-    private fun updateUsers(){
+    private fun checkUserSkillListPresent(): Boolean {
         val user = FirebaseAuth.getInstance().currentUser
         firebaseDatabase = FirebaseDatabase.getInstance().reference
         if (user != null){
-            firebaseDatabase.child("users").child(user.email.toString().substringBefore('.')).setValue(user.uid)
+            if (firebaseDatabase.child("users").child(user.email.toString().substringBefore('.')) != null) {
+                return true
+            }
         } else {
             // No user is signed in
         }
-    }
-
-    private fun deleteUsers(){
-        val user = FirebaseAuth.getInstance().currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance().reference
-        if (user != null){
-            firebaseDatabase.child("users").child(user.email.toString().substringBefore('.')).setValue(null) //null deletes the data stored
-        } else {
-            // No user is signed in
-        }
+        return false
     }
 
     private fun goToLogin(){

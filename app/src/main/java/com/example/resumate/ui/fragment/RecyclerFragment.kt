@@ -19,6 +19,9 @@ import com.example.resumate.R
 import com.example.resumate.ui.recycler.RecyclerItemObj
 import com.example.resumate.ui.recycler.ResListAdapter
 import com.example.resumate.utilities.dataModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.recycler_layout.*
 
 class RecyclerFragment : Fragment(),View.OnClickListener{
@@ -28,12 +31,15 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     private lateinit var skillTextIn: String
     private lateinit var skillBox :TextView
     private var firstPos = 1
+    private lateinit var firebaseDatabase: DatabaseReference
+
     companion object {
         fun newInstance() = RecyclerFragment()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initSkillsList()
+        saveUserSkills()
         super.onCreate(savedInstanceState)
     }
 
@@ -78,6 +84,16 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
         }
     }
 
+    private fun saveUserSkills(){
+        val user = FirebaseAuth.getInstance().currentUser
+        firebaseDatabase = FirebaseDatabase.getInstance().reference
+        if (user != null){
+            firebaseDatabase.child("users").child(user.email.toString().substringBefore('.')).setValue(skillList)
+        } else {
+            // No user is signed in
+        }
+    }
+
     override fun onClick(v: View) {
         when(v.id){
             R.id.remove_skill_button -> removeMarkedSkills()
@@ -99,6 +115,7 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
                 i++
             }
         }
+        saveUserSkills()
     }
 
     private fun addSkillatLastPos(){
@@ -108,5 +125,6 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
         skillList.add(firstPos, RecyclerItemObj(R.drawable.ic_star, skillTextIn))
         mAdapter.notifyItemInserted(firstPos)
         mAdapter.notifyItemRangeChanged(firstPos, skillList.size)
+        saveUserSkills()
     }
 }
