@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -22,8 +24,10 @@ import kotlinx.android.synthetic.main.recycler_layout.*
 class RecyclerFragment : Fragment(),View.OnClickListener{
 
     private val skillList : ArrayList<RecyclerItemObj> = ArrayList()
-
-
+    private lateinit var mAdapter : ResListAdapter
+    private lateinit var skillTextIn: String
+    private lateinit var skillBox :TextView
+    private var firstPos = 1
     companion object {
         fun newInstance() = RecyclerFragment()
     }
@@ -39,8 +43,11 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     ): View? {
         val v = inflater.inflate(R.layout.recycler_layout, container, false)
         val remSkillButton:Button = v.findViewById(R.id.remove_skill_button)
+        val addSkillButton:Button = v.findViewById(R.id.add_skill_button)
+        skillBox = v.findViewById(R.id.skill_TextBox)
 
         remSkillButton.setOnClickListener(this)
+        addSkillButton.setOnClickListener(this)
 
         return v
     }
@@ -49,14 +56,15 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
         super.onViewCreated(view, savedInstanceState)
             recyclerView.apply{
             layoutManager = LinearLayoutManager(activity)
-            adapter = ResListAdapter(skillList) { obj , pos ->
+            mAdapter =  ResListAdapter(skillList) { obj , pos ->
                 if(obj.mImageResource == R.drawable.ic_star) {
                     obj.mImageResource = R.drawable.ic_remove
                 }else{
                     obj.mImageResource = R.drawable.ic_star
                 }
-                adapter?.notifyItemChanged(pos)
+                mAdapter.notifyItemChanged(pos)
             }
+            adapter = mAdapter
         }
     }
 
@@ -73,10 +81,32 @@ class RecyclerFragment : Fragment(),View.OnClickListener{
     override fun onClick(v: View) {
         when(v.id){
             R.id.remove_skill_button -> removeMarkedSkills()
+            R.id.add_skill_button -> addSkillatLastPos()
         }
     }
 
     private fun removeMarkedSkills(){
-        Log.d("DEBUG", "DELETE SOME SHIT!!!!")
+
+        val temp:MutableList<RecyclerItemObj> = emptyList<RecyclerItemObj>().toMutableList()
+        var i = 0
+
+        while(i < skillList.size){
+            if(skillList[i].mImageResource == R.drawable.ic_remove) {
+                skillList.remove(skillList[i])
+                mAdapter.notifyItemRemoved(i)
+                mAdapter.notifyItemRangeChanged(i,skillList.size)
+            }else {
+                i++
+            }
+        }
+    }
+
+    private fun addSkillatLastPos(){
+        skillTextIn = skillBox.text.toString()
+        skillBox.text = ""
+        skillBox.invalidate()
+        skillList.add(firstPos, RecyclerItemObj(R.drawable.ic_star, skillTextIn))
+        mAdapter.notifyItemInserted(firstPos)
+        mAdapter.notifyItemRangeChanged(firstPos, skillList.size)
     }
 }

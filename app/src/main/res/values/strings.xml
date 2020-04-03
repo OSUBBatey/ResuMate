@@ -19,4 +19,5 @@
     <string name ="done">Done</string>
     <string name="add_skill">Add Skill</string>
     <string name="rem_skill">Remove Selected</string>
+    <string name="enter_skill">Enter Skill</string>
 </resources>
