@@ -1,4 +1,4 @@
-package com.example.resumate.utilities
+package com.example.resumate.utilities.tokenizer
 
 val commonWordList: List<String> = listOf("the","of","to","and","a","in","is","it","you","that","he",
     "was","for","on","are","with","as","I","his","they","be","at","one","have","this","from","or",
@@ -82,3 +82,4 @@ val statesList: List<String> = listOf("alabama","alaska","arizona","arkansas","c
 
 val alphabet:List<String> = listOf("a","b","d","e","f","g","h","i","j","k","l","m","n","o","p","q","s","t","u","v","w","x","y","z")
 val number :List<String> = listOf("1","2","3","4","5","6","7","8","9","0")
+val symbols :List<String> = listOf("@","$","%",",",".")

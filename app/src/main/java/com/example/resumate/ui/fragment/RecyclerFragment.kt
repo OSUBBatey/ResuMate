@@ -16,9 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.resumate.R
 import com.example.resumate.ui.recycler.RecyclerItemObj
 import com.example.resumate.ui.recycler.ResListAdapter
+import com.example.resumate.utilities.dataModel
 import kotlinx.android.synthetic.main.recycler_layout.*
 
-class RecyclerFragment : Fragment(){
+class RecyclerFragment : Fragment(),View.OnClickListener{
 
     private val skillList : ArrayList<RecyclerItemObj> = ArrayList()
 
@@ -28,36 +29,7 @@ class RecyclerFragment : Fragment(){
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test1"))
-        skillList.add(RecyclerItemObj(R.drawable.ic_star,"test2"))
+        initSkillsList()
         super.onCreate(savedInstanceState)
     }
 
@@ -65,12 +37,17 @@ class RecyclerFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.recycler_layout, container, false)
+        val v = inflater.inflate(R.layout.recycler_layout, container, false)
+        val remSkillButton:Button = v.findViewById(R.id.remove_skill_button)
+
+        remSkillButton.setOnClickListener(this)
+
+        return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView.apply{
+            recyclerView.apply{
             layoutManager = LinearLayoutManager(activity)
             adapter = ResListAdapter(skillList) { obj , pos ->
                 if(obj.mImageResource == R.drawable.ic_star) {
@@ -79,12 +56,27 @@ class RecyclerFragment : Fragment(){
                     obj.mImageResource = R.drawable.ic_star
                 }
                 adapter?.notifyItemChanged(pos)
-                Log.d("DEBUG","Le Clique")
             }
         }
     }
 
     override fun onStart() {
         super.onStart()
+    }
+
+    private fun initSkillsList(){
+        for(e in dataModel.sanitizedResume){
+            skillList.add(RecyclerItemObj(R.drawable.ic_star, e))
+        }
+    }
+
+    override fun onClick(v: View) {
+        when(v.id){
+            R.id.remove_skill_button -> removeMarkedSkills()
+        }
+    }
+
+    private fun removeMarkedSkills(){
+        Log.d("DEBUG", "DELETE SOME SHIT!!!!")
     }
 }
