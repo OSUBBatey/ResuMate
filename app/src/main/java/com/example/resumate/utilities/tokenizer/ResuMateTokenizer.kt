@@ -2,7 +2,7 @@ package com.example.resumate.utilities.tokenizer
 
 import java.util.*
 
-val splitBy:Regex = Regex("[, ]|[\\s+]|[. ]|[; ]|[;]|[,]|[.]|[&]|[(]|[)]|[\"]|[@]|[:]")
+val splitBy:Regex = Regex("[, ]|[\\s+]|[. ]|[; ]|[;]|[,]|[.]|[&]|[(]|[)]|[\"]|[@]|[:][-]")
 
 /**
  * Takes a string value as input and tokenizes a string based on the punctuation delimiters.

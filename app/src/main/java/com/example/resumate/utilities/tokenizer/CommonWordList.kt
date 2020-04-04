@@ -71,7 +71,9 @@ val commonWordList: List<String> = listOf("the","of","to","and","a","in","is","i
     "parent","shore","divisiath","liquid","log","meant","quotient","teeth","shell","neck","on","sheet","substance",
     "favor","connect","post","spend","chord","fat","glad","original","share","station","dad","bread","charge","proper",
     "bar","offer","segment","slave","duck","instant","market","degree","populate","chick","dear","enemy","reply","drink",
-    "occur","support","speech","nature","range","steam","motion", "expertise")
+    "occur","support","speech","nature","range","steam","motion", "expertise", "required", "needed", "need", "require",
+    "qualify", "qualified", "teams", "ambition", "ambitious", "skills", "writing", "communicating", "communicate",
+    "reading", "contact", "teamwork", "teammates", "teammate", "project", "options")
 
 val statesList: List<String> = listOf("alabama","alaska","arizona","arkansas","california","colorado","connecticut","delaware","florida",
     "georgia","hawaii","idaho","illinois","indiana","iowa","kansas","kentucky","louisiana","maine",
