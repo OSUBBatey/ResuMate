@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
+import com.example.resumate.utilities.DataModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import org.w3c.dom.Text
+import kotlin.math.round
 
 
 class DisplayResultsFragment : Fragment(), View.OnClickListener{
@@ -20,10 +24,7 @@ class DisplayResultsFragment : Fragment(), View.OnClickListener{
     companion object {
         fun newInstance() = DisplayResultsFragment()
     }
-    //private lateinit var password: EditText
-    //private lateinit var email: EditText
-    //private lateinit var firebaseAuth: FirebaseAuth
-    //private lateinit var emailStr: String
+
     private lateinit var passwordStr: String
     private lateinit var webpage_url: String
 
@@ -31,20 +32,26 @@ class DisplayResultsFragment : Fragment(), View.OnClickListener{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //firebaseAuth = FirebaseAuth.getInstance()
         val v = inflater.inflate(R.layout.display_results_layout, container, false)
         val doneButton: Button = v.findViewById(R.id.done_button)
         val saveJobButton: Button = v.findViewById(R.id.save_job_button)
-       // email = v.findViewById(R.id.email)
-       // password = v.findViewById(R.id.password)
-        //val loginButton: Button = v.findViewById(R.id.login_button)
-        //val signupButton: Button = v.findViewById(R.id.signup_button)
+        val percentageText: TextView = v.findViewById(R.id.percentage_text)
 
-        //loginButton.setOnClickListener(this)
-        //signupButton.setOnClickListener(this)
+        var count = 0
         saveJobButton.setOnClickListener(this)
         doneButton.setOnClickListener(this)
+        for(i in DataModel.jobSkills){
+            if (DataModel.userSkills.contains(i)) {
+                println(i)
+                count++
+            }
+        }
+        val percentage = (count / (DataModel.jobSkills.size.toDouble())) * 100
+        percentage.toBigDecimal().setScale(2)
 
+        percentageText.setText("Your resume matches " + percentage + "% of the needed skills for the job")
+
+        // Matching skills
         return v
     }
 

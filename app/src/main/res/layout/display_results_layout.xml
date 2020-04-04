@@ -8,40 +8,60 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/results_message"
+        android:id="@+id/comparison_complete_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/results_message"
-        tools:layout_editor_absoluteX="-16dp"
-        app:layout_constraintBottom_toTopOf="@+id/results"
-        app:layout_constraintRight_toRightOf="@+id/results" />
-
-    <TextView
-        android:id="@+id/results"
-        android:layout_width="130dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="216dp"
-        tools:layout_editor_absoluteX="108dp"
-        app:layout_constraintTop_toBottomOf="@+id/results_message"
-        app:layout_constraintLeft_toLeftOf="@+id/results_message" />
+        android:layout_marginRight="3392dp"
+        android:text="@string/comparison_complete_message"
+        app:layout_constraintBottom_toTopOf="@+id/percentage_text"
+        app:layout_constraintRight_toRightOf="@+id/percentage_text" />
 
     <Button
         android:id="@+id/save_job_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="308dp"
+        android:layout_marginTop="540dp"
         android:layout_marginRight="304dp"
         android:text="Save Job"
-        app:layout_constraintRight_toRightOf="@+id/results"
-        app:layout_constraintTop_toBottomOf="@+id/results" />
+        app:layout_constraintRight_toRightOf="@+id/comparison_complete_message"
+        app:layout_constraintTop_toBottomOf="@+id/comparison_complete_message" />
 
     <Button
         android:id="@+id/done_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="308dp"
+        android:layout_marginTop="540dp"
         android:text="@string/done"
-        app:layout_constraintRight_toRightOf="@+id/results"
-        app:layout_constraintTop_toBottomOf="@+id/results" />
+        app:layout_constraintRight_toRightOf="@+id/comparison_complete_message"
+        app:layout_constraintTop_toBottomOf="@+id/comparison_complete_message" />
+
+    <TextView
+        android:id="@+id/percentage_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="text"
+        app:layout_constraintLeft_toLeftOf="@id/comparison_complete_message"
+        app:layout_constraintTop_toBottomOf="@id/comparison_complete_message" />
+
+    <TextView
+        android:id="@+id/results_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/results_message"
+        app:layout_constraintLeft_toLeftOf="@id/percentage_text"
+        app:layout_constraintTop_toBottomOf="@id/percentage_text" />
+
+    <TextView
+        android:id="@+id/results_list_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="204dp"
+        android:width="400dp"
+        android:height="200dp"
+        android:scrollbars="vertical"
+        app:layout_constraintLeft_toLeftOf="@id/results_message"
+        app:layout_constraintTop_toBottomOf="@id/results_message" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,7 +24,7 @@ import androidx.core.graphics.rotationMatrix
 import androidx.fragment.app.Fragment
 import com.example.resumate.R
 import com.example.resumate.utilities.DataModel
-import com.example.resumate.utilities.tokenizer.createTokenSetFromWebpageLink
+import com.example.resumate.utilities.tokenizer.createTokenSetFromString
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -99,9 +99,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        //val task: StartAsyncTask = StartAsyncTask(context)
                         StartAsyncTask().execute(webpage)
-                        // Need to pass in the results to the next page after comparing
                     }
                 } else {
                     Toast.makeText(
@@ -168,7 +166,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
 
     private fun sanitizeResume(){
         DataModel.userSkills =
-            createTokenSetFromWebpageLink(DataModel.completeResume)
+            createTokenSetFromString(DataModel.completeResume)
         Log.d("DEBUG", DataModel.userSkills.toString())
     }
 
@@ -254,9 +252,7 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 val doc: Document =
                     Jsoup.connect(params[0]).get()
                 val body: String = Jsoup.parse(doc.body().text()).text()
-                val tokenizedWebpage: MutableList<String> =
-                    createTokenSetFromWebpageLink(body)
-                println(tokenizedWebpage)
+                DataModel.jobSkills = createTokenSetFromString(body)
                 return true
             } catch (e: Exception){
                 println("Error $e")

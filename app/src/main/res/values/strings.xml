@@ -15,13 +15,14 @@
     <string name="skillIcon">SkillIcon</string>
     <string name="webpageLink">Paste Webpage Link to Compare Resume with Job</string>
     <string name ="compare">Compare with Resume</string>
-    <string name ="results_message">Your resume has been compared with the webpage you linked. The results are: </string>
+    <string name ="comparison_complete_message">Your resume has been compared with the webpage you linked.</string>
     <string name ="done">Done</string>
     <string name="add_skill">Add Skill</string>
     <string name="rem_skill">Remove Selected</string>
     <string name="enter_skill">Enter Skill</string>
     <string name="v_skills">Edit Skills</string>
     <string name="capture_res">Capture Resume</string>
-    <string name="analysis">OCR Analysis</string>
+    <string name="analysis">Save Skills From Resume</string>
     <string name="edit">Edit</string>
+    <string name = "results_message">The matching skills are:</string>
 </resources>

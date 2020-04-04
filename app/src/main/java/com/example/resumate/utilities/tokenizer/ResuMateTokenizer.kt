@@ -8,7 +8,7 @@ val splitBy:Regex = Regex("[, ]|[\\s+]|[. ]|[; ]|[;]|[,]|[.]|[&]|[(]|[)]|[\"]|[@
  * Takes a string value as input and tokenizes a string based on the punctuation delimiters.
  *  Duplicates and common words are removed and the remaining set is output as a List of Strings.
  */
-fun createTokenSetFromWebpageLink(strIn:String) : MutableList<String>{
+fun createTokenSetFromString(strIn:String) : MutableList<String>{
     var strSetOut : List<String> = strIn.toLowerCase(Locale.ROOT).split(splitBy)
     strSetOut = strSetOut.distinct()
     val result: MutableList<String> = strSetOut.toMutableList()
