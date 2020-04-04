@@ -43,7 +43,8 @@ class OCRFragment : Fragment(), View.OnClickListener{
     private var test = false
     private lateinit var firebaseDatabase: DatabaseReference
     private val REQUEST_IMAGE_CAPTURE = 1
-    private lateinit var imageBMP:Bitmap
+    private var imageBMP:Bitmap = Bitmap.createBitmap(1,1,Bitmap.Config.ALPHA_8)
+    private var testBMP:Bitmap = Bitmap.createBitmap(1,1,Bitmap.Config.ALPHA_8)
     private lateinit var currentPhotoPath: String
 
     companion object {
@@ -134,24 +135,29 @@ class OCRFragment : Fragment(), View.OnClickListener{
     }
 
     private fun runRecog(){
-        val tView = activity?.findViewById<TextView>(R.id.ocrTextView)
-        val image = FirebaseVisionImage.fromBitmap(imageBMP)
-        val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
-        detector .processImage(image)
-            .addOnSuccessListener { p0 ->
-                val t = p0!!.text
-                //tView?.text = t
-                DataModel.completeResume = t
-                saveResume(t)
-                tView?.textSize = 16.toFloat()
-                tView?.movementMethod = ScrollingMovementMethod()
-                tView?.invalidate()
-                sanitizeResume()
-                Toast.makeText(activity, "OCR ANALYSIS COMPLETE!!", Toast.LENGTH_SHORT).show();
-            }
-            .addOnFailureListener { e ->
-                print(message = "Failed with exception$e")
-            }
+
+        if(!imageBMP.sameAs(testBMP)) {
+            val tView = activity?.findViewById<TextView>(R.id.ocrTextView)
+            val image = FirebaseVisionImage.fromBitmap(imageBMP)
+            val detector = FirebaseVision.getInstance().onDeviceTextRecognizer
+            detector.processImage(image)
+                .addOnSuccessListener { p0 ->
+                    val t = p0!!.text
+                    //tView?.text = t
+                    DataModel.completeResume = t
+                    saveResume(t)
+                    tView?.textSize = 16.toFloat()
+                    tView?.movementMethod = ScrollingMovementMethod()
+                    tView?.invalidate()
+                    sanitizeResume()
+                    Toast.makeText(activity, "OCR ANALYSIS COMPLETE!!", Toast.LENGTH_SHORT).show();
+                }
+                .addOnFailureListener { e ->
+                    print(message = "Failed with exception$e")
+                }
+        }else{
+            Toast.makeText(activity, "NO INPUT DETECTED!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private fun saveResume(resume: String) {
