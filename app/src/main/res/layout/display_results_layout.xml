@@ -11,7 +11,8 @@
         android:id="@+id/comparison_complete_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="3392dp"
+        android:paddingHorizontal="4dp"
+        android:layout_marginEnd="3200dp"
         android:text="@string/comparison_complete_message"
         app:layout_constraintBottom_toTopOf="@+id/percentage_text"
         app:layout_constraintRight_toRightOf="@+id/percentage_text" />
@@ -20,17 +21,19 @@
         android:id="@+id/save_job_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="540dp"
-        android:layout_marginRight="304dp"
-        android:text="Save Job"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="612dp"
+        android:layout_marginRight="300dp"
+        android:text="@string/save_job"
         app:layout_constraintRight_toRightOf="@+id/comparison_complete_message"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/comparison_complete_message" />
 
     <Button
         android:id="@+id/done_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="540dp"
+        android:layout_marginTop="612dp"
         android:text="@string/done"
         app:layout_constraintRight_toRightOf="@+id/comparison_complete_message"
         app:layout_constraintTop_toBottomOf="@+id/comparison_complete_message" />
@@ -47,20 +50,24 @@
         android:id="@+id/results_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:text="@string/results_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="@id/percentage_text"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/percentage_text" />
 
-    <TextView
-        android:id="@+id/results_list_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="204dp"
-        android:width="400dp"
-        android:height="200dp"
-        android:scrollbars="vertical"
-        app:layout_constraintLeft_toLeftOf="@id/results_message"
-        app:layout_constraintTop_toBottomOf="@id/results_message" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/results_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:paddingHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/results_message"
+        app:layout_constraintVertical_bias="0.056" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
