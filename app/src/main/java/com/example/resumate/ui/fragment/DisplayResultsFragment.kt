@@ -47,11 +47,9 @@ class DisplayResultsFragment : Fragment(), View.OnClickListener{
             }
         }
         val percentage = (count / (DataModel.jobSkills.size.toDouble())) * 100
-        percentage.toBigDecimal().setScale(2)
 
         percentageText.setText("Your resume matches " + percentage + "% of the needed skills for the job")
 
-        // Matching skills
         return v
     }
 
