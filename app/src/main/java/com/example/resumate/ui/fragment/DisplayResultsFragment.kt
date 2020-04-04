@@ -40,15 +40,18 @@ class DisplayResultsFragment : Fragment(), View.OnClickListener{
         var count = 0
         saveJobButton.setOnClickListener(this)
         doneButton.setOnClickListener(this)
+
+        // Count how many job skills match with the user skills and display them
         for(i in DataModel.jobSkills){
             if (DataModel.userSkills.contains(i)) {
                 println(i)
                 count++
             }
         }
+        // Calculate the percentage and round to two decimal places
         val percentage = (count / (DataModel.jobSkills.size.toDouble())) * 100
-
-        percentageText.setText("Your resume matches " + percentage + "% of the needed skills for the job")
+        val percentage_rounded:Double = Math.round(percentage * 100.0) / 100.0
+        percentageText.setText("Your resume matches " + percentage_rounded + "% of the needed skills for the job")
 
         return v
     }

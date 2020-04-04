@@ -40,7 +40,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="text"
         app:layout_constraintLeft_toLeftOf="@id/comparison_complete_message"
         app:layout_constraintTop_toBottomOf="@id/comparison_complete_message" />
 
