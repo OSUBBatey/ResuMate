@@ -13,6 +13,8 @@ class SplashActivity : SingleFragmentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         setContentView(R.layout.single_fragment_activity)
     }
 

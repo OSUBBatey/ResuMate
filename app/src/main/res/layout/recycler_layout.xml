@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+        android:layout_width="match_parent" android:layout_height="match_parent" android:background="@color/cream">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@android:color/darker_gray"
+        android:background="@color/backgroundBlue"
         android:padding="4dp"
         android:layout_marginBottom="60dp"
         android:scrollbars="vertical" />
@@ -23,7 +23,10 @@
         android:layout_marginEnd="74dp"
         android:layout_marginBottom="1dp"
         android:text="@string/add_skill"
-        tools:ignore="RelativeOverlap" />
+        tools:ignore="RelativeOverlap"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/remove_skill_button"
@@ -34,7 +37,10 @@
         android:layout_marginStart="7dp"
         android:layout_marginBottom="5dp"
         android:text="@string/rem_skill"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 
     <EditText
         android:id="@+id/skill_TextBox"
@@ -48,7 +54,7 @@
         android:autofillHints="Skill Entry"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="@string/enter_skill"
+        android:hint="@string/enter_skill"
         android:textAlignment="center"
         tools:ignore="LabelFor" />
 
@@ -61,5 +67,8 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="1dp"
         android:textSize="12sp"
-        android:text="@string/edit" />
+        android:text="@string/edit"
+        android:background="@drawable/button_background"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 </RelativeLayout>

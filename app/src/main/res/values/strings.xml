@@ -26,4 +26,5 @@
     <string name="edit">Edit</string>
     <string name = "results_message">The matching skills are:</string>
     <string name="save_job">Save Job</string>
+    <string name="resumate_logo">ResuMate logo</string>
 </resources>

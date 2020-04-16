@@ -11,50 +11,47 @@
         android:id="@+id/comparison_complete_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:paddingHorizontal="4dp"
-        android:layout_marginEnd="3200dp"
         android:text="@string/comparison_complete_message"
-        app:layout_constraintBottom_toTopOf="@+id/percentage_text"
-        app:layout_constraintRight_toRightOf="@+id/percentage_text" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
         android:id="@+id/save_job_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="612dp"
-        android:layout_marginRight="300dp"
+        android:layout_marginTop="520dp"
+        android:background="@drawable/button_background"
         android:text="@string/save_job"
-        app:layout_constraintRight_toRightOf="@+id/comparison_complete_message"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comparison_complete_message" />
+        app:layout_constraintTop_toBottomOf="@+id/results_message" />
 
     <Button
         android:id="@+id/done_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="612dp"
+        android:layout_marginLeft="208dp"
+        android:layout_marginTop="520dp"
+        android:background="@drawable/button_background"
         android:text="@string/done"
-        app:layout_constraintRight_toRightOf="@+id/comparison_complete_message"
-        app:layout_constraintTop_toBottomOf="@+id/comparison_complete_message" />
-
-    <TextView
-        android:id="@+id/percentage_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintLeft_toLeftOf="@id/comparison_complete_message"
-        app:layout_constraintTop_toBottomOf="@id/comparison_complete_message" />
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintLeft_toRightOf="@+id/save_job_button"
+        app:layout_constraintTop_toBottomOf="@+id/results_message" />
 
     <TextView
         android:id="@+id/results_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/results_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="@id/percentage_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/percentage_text" />
 
@@ -65,9 +62,17 @@
         android:paddingHorizontal="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/results_message"
-        app:layout_constraintVertical_bias="0.056" />
+        app:layout_constraintVertical_bias="0.333" />
+
+    <TextView
+        android:id="@+id/percentage_text"
+        android:layout_width="406dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comparison_complete_message" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

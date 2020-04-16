@@ -3,4 +3,14 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="backgroundBlue">#C2DFFF</color>
+    <color name ="white">#FFFFFF</color>
+    <color name ="textColor">#43C6DB</color>
+    <color name ="buttonTopBlue">#357EC7</color>
+    <color name ="buttonCenterBlue">#56A5EC</color>
+    <color name ="buttonBottomBlue">#79BAEC</color>
+    <color name ="buttonTopGrey">#616D7E</color>
+    <color name ="buttonCenterGrey">#6D7B8D</color>
+    <color name ="buttonBottomGrey">#BCC6CC</color>
+    <color name ="cream">#DCDCDC</color>
 </resources>
