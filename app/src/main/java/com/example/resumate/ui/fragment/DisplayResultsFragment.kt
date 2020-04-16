@@ -1,12 +1,16 @@
 package com.example.resumate.ui.fragment
 
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.resumate.R
@@ -80,13 +84,30 @@ class DisplayResultsFragment : Fragment(), View.OnClickListener{
         startActivity(Intent("com.example.resumate.ui.main.OCR"))
     }
 
-    private fun saveUserJobs(){
-        val user = FirebaseAuth.getInstance().currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance().reference
-        if (user != null){
-            firebaseDatabase.child("jobs").child(user.email.toString().substringBefore('.')).push().setValue(url)
-        } else {
-            // No user is signed in
+    private fun checkForNetworkConnectivity(): Boolean {
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        if (activeNetwork != null) {
+            Log.d("DEBUG", "CONNECTED TO NETWORK")
+            return true
+        }
+        Toast.makeText(
+            activity, "No internet connection",
+            Toast.LENGTH_SHORT
+        ).show()
+        return false
+    }
+
+    private fun saveUserJobs() {
+        if (checkForNetworkConnectivity()) {
+            val user = FirebaseAuth.getInstance().currentUser
+            firebaseDatabase = FirebaseDatabase.getInstance().reference
+            if (user != null) {
+                firebaseDatabase.child("jobs").child(user.email.toString().substringBefore('.'))
+                    .push().setValue(url)
+            } else {
+                // No user is signed in
+            }
         }
     }
 

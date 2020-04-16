@@ -2,10 +2,13 @@ package com.example.resumate.ui.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.net.ConnectivityManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Environment
@@ -83,46 +86,62 @@ class OCRFragment : Fragment(), View.OnClickListener{
                 goToLogin()
             }
             R.id.compare_button -> {
-                if (checkUserSkillListPresent()) {
-                    val webpage = webpage_link.text.toString()
-                    job_url = webpage
+                if (checkForNetworkConnectivity()) {
+                    if (checkUserSkillListPresent()) {
+                        val webpage = webpage_link.text.toString()
+                        job_url = webpage
 
-                    // Check if link is empty
-                    if (webpage.isEmpty()) {
-                        Toast.makeText(
-                            activity, "Webpage link is empty.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    } else if (!(webpage.startsWith("https://"))) {
-                        // Check if link format is correct
-                        Toast.makeText(
-                            activity, "Webpage link must start with https://",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        // Check if link is empty
+                        if (webpage.isEmpty()) {
+                            Toast.makeText(
+                                activity, "Webpage link is empty.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else if (!(webpage.startsWith("https://"))) {
+                            // Check if link format is correct
+                            Toast.makeText(
+                                activity, "Webpage link must start with https://",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            StartAsyncTask().execute(webpage)
+                        }
                     } else {
-                        StartAsyncTask().execute(webpage)
+                        Toast.makeText(
+                            activity, "User does not have a skills list",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
-                } else {
-                    Toast.makeText(
-                        activity, "User does not have a skills list",
-                        Toast.LENGTH_SHORT
-                    ).show()
                 }
             }
         }
     }
 
-    private fun checkUserSkillListPresent(): Boolean {
-        val user = FirebaseAuth.getInstance().currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance().reference
-        if (user != null){
-            if (firebaseDatabase.child("users").child(user.email.toString().substringBefore('.')) != null) {
-                return true
-            }
-        } else {
-            // No user is signed in
+    private fun checkForNetworkConnectivity(): Boolean {
+        val cm = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        if (activeNetwork != null) {
+            Log.d("DEBUG", "CONNECTED TO NETWORK")
+            return true
         }
+        Toast.makeText(
+            activity, "No internet connection",
+            Toast.LENGTH_SHORT
+        ).show()
         return false
+    }
+
+    private fun checkUserSkillListPresent(): Boolean {
+            val user = FirebaseAuth.getInstance().currentUser
+            firebaseDatabase = FirebaseDatabase.getInstance().reference
+            if (user != null) {
+                if (firebaseDatabase.child("users").child(user.email.toString().substringBefore('.')) != null) {
+                    return true
+                }
+            } else {
+                // No user is signed in
+            }
+            return false
     }
 
     private fun goToLogin(){
@@ -161,12 +180,15 @@ class OCRFragment : Fragment(), View.OnClickListener{
     }
 
     private fun saveResume(resume: String) {
-        val user = FirebaseAuth.getInstance().currentUser
-        firebaseDatabase = FirebaseDatabase.getInstance().reference
-        if (user != null){
-            firebaseDatabase.child("resume").child(user.email.toString().substringBefore('.')).setValue(resume)
-        } else {
-            // No user is signed in
+        if (checkForNetworkConnectivity()) {
+            val user = FirebaseAuth.getInstance().currentUser
+            firebaseDatabase = FirebaseDatabase.getInstance().reference
+            if (user != null) {
+                firebaseDatabase.child("resume").child(user.email.toString().substringBefore('.'))
+                    .setValue(resume)
+            } else {
+                // No user is signed in
+            }
         }
     }
 
