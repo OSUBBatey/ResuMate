@@ -7,9 +7,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background ="@color/backgroundBlue">
+
     <LinearLayout
-        android:layout_width="433dp"
-        android:layout_height="88dp"
+        android:id="@+id/linearLayout3"
+        android:layout_width="973dp"
+        android:layout_height="67dp"
         android:background="@color/buttonBottomBlue"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -20,6 +22,7 @@
             android:id="@+id/imageView2"
             android:layout_width="238dp"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
             android:contentDescription="@string/resumate_logo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -88,6 +91,9 @@
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.486" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
