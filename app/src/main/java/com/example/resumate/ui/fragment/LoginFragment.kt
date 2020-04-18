@@ -46,7 +46,7 @@ class LoginFragment : Fragment(), View.OnClickListener{
         return v
     }
 
-    private fun emailOrPassEmpty(emailStr: String, passwordStr: String): Boolean {
+    fun emailOrPassEmpty(emailStr: String, passwordStr: String): Boolean {
         if (emailStr.isEmpty() || passwordStr.isEmpty()){
             if (emailStr.isEmpty()) {
                 email.error = "Email was not provided"

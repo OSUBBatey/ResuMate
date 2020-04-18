@@ -1,8 +1,11 @@
 package com.example.resumate
 
+import android.content.Context
+import android.net.ConnectivityManager
 import org.junit.Test
 
 import org.junit.Assert.*
+import com.example.resumate.ui.fragment.LoginFragment
 
 /**
  * Example local unit test, which will execute on the development machine (host).
